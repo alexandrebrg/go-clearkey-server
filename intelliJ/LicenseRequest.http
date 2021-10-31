@@ -1,0 +1,18 @@
+### Registrate a new license
+POST http://localhost:8080/license/register
+
+    {
+      "kty": "temporary",
+      "k": "NTAwNTYxMzgtOGFlNC00M2I0LThiNDMtNDRkNDdjN2VjZjUw",
+      "kid": "NTAwNTYxMzgtOGFlNC00M2I0LThiNDMtNDRkNDdjN2VjZjUw"
+    }
+
+### Fetch a license
+POST http://localhost:8080/license
+
+{"kids": ["NTAwNTYxMzgtOGFlNC00M2I0LThiNDMtNDRkNDdjN2VjZjUw"], "type": "temporary"}
+
+### Fetch a license which do not exist
+POST http://localhost:8080/license
+
+{"kids": ["NTAwNTYxMzgtOGFlNC00M2I0LThiNDMtNDRkNDdjN2VjZ"], "type": "temporary"}
