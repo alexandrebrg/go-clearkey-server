@@ -8,7 +8,7 @@ import (
 )
 
 func RegisterLog() {
-	zlogger, _ := zap.NewProduction()
+	zlogger, _ := zap.NewDevelopment()
 	defer zlogger.Sync()
 
 	sugar := zlogger.Sugar()

@@ -1,8 +1,8 @@
 package models
 
 type LicenseResponse struct {
-	Keys	[]ContentKey `json:"keys"`
-	Type	string       `json:"type"`
+	Keys	[]ContentKeyRequest `json:"keys"`
+	Type	string       		`json:"type"`
 }
 
 
