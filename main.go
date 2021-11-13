@@ -7,10 +7,12 @@ import (
 	"github.com/go-chi/cors"
 	"github.com/spf13/viper"
 	plogger "gitlab.com/protocole/clearkey/internal/core/ports/logger"
+	"gitlab.com/protocole/clearkey/internal/core/ports/repositories"
 	"gitlab.com/protocole/clearkey/internal/core/services"
 	"gitlab.com/protocole/clearkey/internal/handlers"
 	zlogger "gitlab.com/protocole/clearkey/internal/loggers"
-	"gitlab.com/protocole/clearkey/internal/repositories"
+	"gitlab.com/protocole/clearkey/internal/repositories/memory"
+	"gitlab.com/protocole/clearkey/internal/repositories/postgresql"
 	"gitlab.com/protocole/clearkey/pkg/apperrors"
 	"log"
 	"net/http"
@@ -28,8 +30,8 @@ func main() {
 	// only choice available for now is zlogger
 	plogger.SetLogger(zlogger.NewZLogger(viper.GetString("EnvType")))
 
-	repo := repositories.NewMemoryRepository()
-	service := services.NewService(repo)
+
+	service := services.NewService(chooseRepository())
 	handler := handlers.NewHandler(service)
 
 	r := chi.NewRouter()
@@ -77,6 +79,12 @@ func loadEnvironment() error {
 		"Port":    "PORT",
 		"Ip":      "IP",
 		"Domains": "ALLOWED_DOMAINS",
+		"Repository": "REPOSITORY_TYPE",
+		"Psql_pass": "PSQL_PASSWORD",
+		"Psql_user": "PSQL_USER",
+		"Psql_addr": "PSQL_ADDR",
+		"Psql_db": "PSQL_DB",
+		"Psql_insecure": "PSQL_INSECURE",
 	}
 
 	for keyId, keyValue := range envKeys {
@@ -90,6 +98,38 @@ func loadEnvironment() error {
 	viper.SetDefault("Port", 8080)
 	viper.SetDefault("Ip", "0.0.0.0")
 	viper.SetDefault("ALLOWED_DOMAINS", []string{"http://localhost:*", "http://127.0.0.1:*"})
+	viper.SetDefault("Repository", "RAM")
+	viper.SetDefault("Psql_pass", "postgres")
+	viper.SetDefault("Psql_user", "postgres")
+	viper.SetDefault("Psql_addr", "127.0.0.1:5433")
+	viper.SetDefault("Psql_db", "postgres")
+	viper.SetDefault("Psql_insecure", true)
 
+	return nil
+}
+
+func chooseRepository() repositories.KeyStorageRepository {
+	repositoryType := viper.GetString("Repository")
+	plogger.Log.Infof("Selected repository is %s", repositoryType)
+
+	switch repositoryType {
+	case "RAM":
+		return memory.NewMemoryRepository()
+	case "PSQL":
+		repository, err := postgresql.NewPostgreSQLRepository(
+			viper.GetString("Psql_user"),
+			viper.GetString("Psql_pass"),
+			viper.GetString("Psql_db"),
+			viper.GetString("Psql_addr"),
+			viper.GetBool("Psql_insecure"),
+		)
+		if err != nil {
+			plogger.Log.Fatalf(err.Error())
+		}
+
+		return repository
+	}
+
+	plogger.Log.Fatalf("Invalid repository %s, please choose between the available ones", repositoryType)
 	return nil
 }

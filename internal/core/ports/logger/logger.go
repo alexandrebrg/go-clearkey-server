@@ -15,6 +15,8 @@ type logger interface {
 
 	Debugf(format string, args ...interface{})
 	Debug(args ...interface{})
+
+	Printf(format string, args ...interface{})
 }
 
 func SetLogger(newLogger logger) {

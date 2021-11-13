@@ -14,6 +14,10 @@ type errorWrapper struct {
 	Data     string `json:"data"`
 }
 
+func (e *errorWrapper) Error() string {
+	return e.Message
+}
+
 func (e *errorWrapper) String() string {
 	return e.Message
 }
@@ -63,4 +67,6 @@ var (
 	 * APPLICATION INTERNAL ERRORS
 	 */
 	EnvVarLoadFailed = errors.New("could not environment variables")
+	DBConnectionFailed = errors.New("upfront database is either down or credentials are wrong")
+
 )

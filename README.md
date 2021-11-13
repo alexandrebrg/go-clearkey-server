@@ -18,11 +18,17 @@ go run .
 ### Environment variables
 
 | Variable name | Viper KeyID | Default | Description | 
-| ------------- | ----------- | ----------- |
+| ------------- | ----------- | ----------- | ------- |
 | `ENV` | `EnvType` | `development` | Either `development` or `production`, if development the logs are sugared, else it is JSON |
 | `PORT` | `Port` | `8080` | Listening port of the application | 
 | `IP` | `Ip` | `0.0.0.0` | Listening IP address of the application |
-| `ALLOWED_DOMAINS` | `Domains` | `[]string{"http://localhost:*", "http://127.0.0.1:*"}` | CORS allowed domains 
+| `ALLOWED_DOMAINS` | `Domains` | `[]string{"http://localhost:*", "http://127.0.0.1:*"}` | CORS allowed domains  |
+| `REPOSITORY_TYPE` | `Repository` | `RAM` | Define the type of repository used, choose between `RAM` and `PSQL` |
+| `PSQL_PASSWORD` | `Psql_pass` | ` ` | PostgreSQL password |
+| `PSQL_USER` | `Psql_user` | ` ` | PostgreSQL username |  
+| `PSQL_ADDR` | `Psql_addr` | `127.0.0.0:5433` | PostgreSQL address (default is `docker-compose.yml` port) | 
+| `PSQL_DB` | `Psql_db` | `postgres` | PostgreSQL database |
+| `PSQL_INSECURE` | `Psql_insecure` | `true` | Define whether postgres tries to connect using TLS handshake | 
 
 ## Routes
 
