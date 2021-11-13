@@ -1,5 +1,7 @@
 # DRM ClearKey Server
 
+[![Go](https://github.com/AlexandreBrg/go-clearkey-server/actions/workflows/go.yml/badge.svg)](https://github.com/AlexandreBrg/go-clearkey-server/actions/workflows/go.yml)
+
 The idea behind this little project is to have a working ClearKey server for test purposes. This was the idea
 behind the real first version, but I ended up with a new version of this project written with hexagonal 
 architecture in mind. If you don't know what ClearKey systems are, I let you check what is a 
