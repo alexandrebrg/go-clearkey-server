@@ -2,7 +2,7 @@ package domain
 
 import (
 	"errors"
-	"gitlab.com/protocole/clearkey/core/ports/logger"
+	logger2 "gitlab.com/protocole/clearkey/internal/core/ports/logger"
 )
 
 type ClearKeyEncoded struct {
@@ -14,13 +14,13 @@ type ClearKeyEncoded struct {
 func (key *ClearKeyEncoded) Decode() (ClearKeyDecoded, error) {
 	keyAsUUID, err := Base64URLToUUID(key.IdAsBase64Url)
 	if err != nil {
-		logger.Log.Errorf("Could not decode key (%s), reason: %s", key.IdAsBase64Url, err)
+		logger2.Log.Errorf("Could not decode key (%s), reason: %s", key.IdAsBase64Url, err)
 		return ClearKeyDecoded{}, errors.New("could not decode key")
 	}
 
 	valueAsUUID, err := Base64URLToUUID(key.ValueAsBase64Url)
 	if err != nil {
-		logger.Log.Errorf("Could not decode key (%s), reason: %s", key.ValueAsBase64Url, err)
+		logger2.Log.Errorf("Could not decode key (%s), reason: %s", key.ValueAsBase64Url, err)
 		return ClearKeyDecoded{}, errors.New("could not decode value")
 	}
 
