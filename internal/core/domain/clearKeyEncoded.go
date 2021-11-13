@@ -25,7 +25,7 @@ func (key *ClearKeyEncoded) Decode() (ClearKeyDecoded, error) {
 	}
 
 	return ClearKeyDecoded{
-		Type:             key.Type,
+		Type:  key.Type,
 		Value: valueAsUUID,
 		Id:    keyAsUUID,
 	}, nil

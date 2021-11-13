@@ -17,7 +17,7 @@ func NewMemoryRepository() *memory {
 	key := domain2.ClearKeyDecoded{
 		Type:  "temporary",
 		Id:    parse,
-		Value: uuid.New(),
+		Value: parse,
 	}
 	bytes, _ := json.Marshal(key)
 	return &memory{
@@ -37,6 +37,7 @@ func (repo *memory) Get(id string) (domain2.ClearKeyDecoded, error) {
 		}
 
 		logger2.Log.Debugf("GET %s - FOUND", id[:8])
+		key.Type = "oct"
 		return key, nil
 	}
 
