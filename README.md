@@ -15,9 +15,12 @@ As this is my first application in Go & with this kind of architecture, it is ob
 go run .
 ```
 
+If you are willing to use PostgreSQL as repository, you have a `docker-compose.yml` file available which have credentials
+that are the same as environment variable's default.
+
 ### Environment variables
 
-| Variable name | Viper KeyID | Default | Description | 
+| Variable name | [Viper](https://github.com/spf13/viper) KeyID | Default | Description | 
 | ------------- | ----------- | ----------- | ------- |
 | `ENV` | `EnvType` | `development` | Either `development` or `production`, if development the logs are sugared, else it is JSON |
 | `PORT` | `Port` | `8080` | Listening port of the application | 
