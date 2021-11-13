@@ -1,4 +1,6 @@
 ### Registrate a new license
+### KEY IS : 50056138-8ae4-43b4-8b43-44d47c7ecf50
+### VALUE IS: 50056138-8ae4-43b4-8b43-44d47c7ecf50
 POST http://localhost:8080/license/register
 
     {
