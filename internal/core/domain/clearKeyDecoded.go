@@ -3,7 +3,7 @@ package domain
 import (
 	"errors"
 	"github.com/google/uuid"
-	"gitlab.com/protocole/clearkey/core/ports/logger"
+	logger2 "gitlab.com/protocole/clearkey/internal/core/ports/logger"
 )
 
 type ClearKeyDecoded struct {
@@ -23,13 +23,13 @@ func NewClearKey(cleanId uuid.UUID, cleanValue uuid.UUID, cleanType string) Clea
 func (key *ClearKeyDecoded) Encode() (ClearKeyEncoded, error) {
 	keyAsB64, err := UUIDToBase64URL(key.Id)
 	if err != nil {
-		logger.Log.Errorf("Could not marshal id (%s) into uuid, reason: %s", key.Id, err)
+		logger2.Log.Errorf("Could not marshal id (%s) into uuid, reason: %s", key.Id, err)
 		return ClearKeyEncoded{}, errors.New("could not encode key")
 	}
 
 	valueAsB64, err := UUIDToBase64URL(key.Value)
 	if err != nil {
-		logger.Log.Errorf("Could not marchal id (%s) into uuid, reason: %s", key.Value, err)
+		logger2.Log.Errorf("Could not marchal id (%s) into uuid, reason: %s", key.Value, err)
 		return ClearKeyEncoded{}, errors.New("could not encode value")
 	}
 	return ClearKeyEncoded{

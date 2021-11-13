@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
-	"gitlab.com/protocole/clearkey/core/ports/logger"
-	"gitlab.com/protocole/clearkey/core/services"
-	"gitlab.com/protocole/clearkey/handlers"
-	"gitlab.com/protocole/clearkey/loggers"
-	"gitlab.com/protocole/clearkey/repositories"
+	logger2 "gitlab.com/protocole/clearkey/internal/core/ports/logger"
+	services2 "gitlab.com/protocole/clearkey/internal/core/services"
+	handlers2 "gitlab.com/protocole/clearkey/internal/handlers"
+	loggers2 "gitlab.com/protocole/clearkey/internal/loggers"
+	repositories2 "gitlab.com/protocole/clearkey/internal/repositories"
 	"net/http"
 	"os"
 	"os/signal"
@@ -16,10 +16,10 @@ import (
 )
 
 func main() {
-	logger.SetLogger(loggers.NewZLogger())
-	repo := repositories.NewMemoryRepository()
-	service := services.NewService(repo)
-	handler := handlers.NewHandler(service)
+	logger2.SetLogger(loggers2.NewZLogger())
+	repo := repositories2.NewMemoryRepository()
+	service := services2.NewService(repo)
+	handler := handlers2.NewHandler(service)
 
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
@@ -31,7 +31,7 @@ func main() {
 
 	errs := make(chan error, 2)
 	go func() {
-		logger.Log.Infof("Listening on prt :8080")
+		logger2.Log.Infof("Listening on prt :8080")
 		errs <- http.ListenAndServe(":8080", r)
 	}()
 
@@ -41,5 +41,5 @@ func main() {
 		errs <- fmt.Errorf("%s", <-c)
 	}()
 
-	logger.Log.Errorf(fmt.Sprintf("\nTerminated %s\n", <-errs))
+	logger2.Log.Errorf(fmt.Sprintf("\nTerminated %s\n", <-errs))
 }
