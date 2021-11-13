@@ -11,12 +11,18 @@ As this is my first application in Go & with this kind of architecture, it is ob
 
 ## Usage
 
-As for now there isn't any configuration customization available, you can only run the project and it will listen
-onto `:8080` port.
-
 ```shell
 go run .
 ```
+
+### Environment variables
+
+| Variable name | Viper KeyID | Default | Description | 
+| ------------- | ----------- | ----------- |
+| `ENV` | `EnvType` | `development` | Either `development` or `production`, if development the logs are sugared, else it is JSON |
+| `PORT` | `Port` | `8080` | Listening port of the application | 
+| `IP` | `Ip` | `0.0.0.0` | Listening IP address of the application |
+| `ALLOWED_DOMAINS` | `Domains` | `[]string{"http://localhost:*", "http://127.0.0.1:*"}` | CORS allowed domains 
 
 ## Routes
 
