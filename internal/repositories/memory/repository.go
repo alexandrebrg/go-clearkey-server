@@ -1,4 +1,4 @@
-package repositories
+package memory
 
 import (
 	"encoding/json"
