@@ -1,28 +1,45 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
-	"gitlab.com/protocole/clearkey/license"
-	"gitlab.com/protocole/clearkey/logger"
-	"go.uber.org/zap"
+	"fmt"
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
+	"gitlab.com/protocole/clearkey/core/ports/logger"
+	"gitlab.com/protocole/clearkey/core/services"
+	"gitlab.com/protocole/clearkey/handlers"
+	"gitlab.com/protocole/clearkey/loggers"
+	"gitlab.com/protocole/clearkey/repositories"
+	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
 )
 
-func RegisterLog() {
-	zlogger, _ := zap.NewDevelopment()
-	defer zlogger.Sync()
-
-	sugar := zlogger.Sugar()
-	logger.SetLogger(sugar)
-}
-
 func main() {
-	RegisterLog()
-	router := gin.Default()
-	router.POST("/license", license.HandleRequest)
-	router.POST("/license/register", license.HandleKeyRegistration)
+	logger.SetLogger(loggers.NewZLogger())
+	repo := repositories.NewMemoryRepository()
+	service := services.NewService(repo)
+	handler := handlers.NewHandler(service)
 
-	err := router.Run("localhost:8080")
-	if err != nil {
-		return
-	}
+	r := chi.NewRouter()
+	r.Use(middleware.Logger)
+	r.Use(middleware.RequestID)
+	r.Use(middleware.RealIP)
+	r.Use(middleware.Recoverer)
+	r.Post("/license", handler.GetKey)
+	r.Post("/license/register", handler.PostKey)
+
+	errs := make(chan error, 2)
+	go func() {
+		logger.Log.Infof("Listening on prt :8080")
+		errs <- http.ListenAndServe(":8080", r)
+	}()
+
+	go func() {
+		c := make(chan os.Signal, 1)
+		signal.Notify(c, syscall.SIGINT)
+		errs <- fmt.Errorf("%s", <-c)
+	}()
+
+	logger.Log.Errorf(fmt.Sprintf("\nTerminated %s\n", <-errs))
 }
