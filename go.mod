@@ -3,6 +3,7 @@ module gitlab.com/protocole/clearkey
 go 1.16
 
 require (
+	github.com/brianvoe/gofakeit/v6 v6.9.0 // indirect
 	github.com/go-chi/chi/v5 v5.0.5
 	github.com/go-chi/cors v1.2.0
 	github.com/go-pg/pg/v10 v10.10.6 // indirect

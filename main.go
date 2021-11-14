@@ -30,7 +30,6 @@ func main() {
 	// only choice available for now is zlogger
 	plogger.SetLogger(zlogger.NewZLogger(viper.GetString("EnvType")))
 
-
 	service := services.NewService(chooseRepository())
 	handler := handlers.NewHandler(service)
 
@@ -75,15 +74,15 @@ func main() {
 func loadEnvironment() error {
 	// This corresponds to key ID & env var name
 	envKeys := map[string]string{
-		"EnvType": "ENV",
-		"Port":    "PORT",
-		"Ip":      "IP",
-		"Domains": "ALLOWED_DOMAINS",
-		"Repository": "REPOSITORY_TYPE",
-		"Psql_pass": "PSQL_PASSWORD",
-		"Psql_user": "PSQL_USER",
-		"Psql_addr": "PSQL_ADDR",
-		"Psql_db": "PSQL_DB",
+		"EnvType":       "ENV",
+		"Port":          "PORT",
+		"Ip":            "IP",
+		"Domains":       "ALLOWED_DOMAINS",
+		"Repository":    "REPOSITORY_TYPE",
+		"Psql_pass":     "PSQL_PASSWORD",
+		"Psql_user":     "PSQL_USER",
+		"Psql_addr":     "PSQL_ADDR",
+		"Psql_db":       "PSQL_DB",
 		"Psql_insecure": "PSQL_INSECURE",
 	}
 
