@@ -2,7 +2,6 @@ package loggers
 
 import "go.uber.org/zap"
 
-
 type loggerWrapper struct {
 	lw *zap.SugaredLogger
 }
@@ -26,7 +25,6 @@ func (logger *loggerWrapper) Infof(format string, args ...interface{}) {
 func (logger *loggerWrapper) Info(args ...interface{}) {
 	logger.lw.Info(args...)
 }
-
 
 func (logger *loggerWrapper) Warnf(format string, args ...interface{}) {
 	logger.lw.Warnf(format, args...)

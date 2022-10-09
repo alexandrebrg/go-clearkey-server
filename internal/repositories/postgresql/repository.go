@@ -14,7 +14,7 @@ import (
 )
 
 type postgresql struct {
-	db *bun.DB
+	db  *bun.DB
 	ctx context.Context
 }
 
@@ -45,20 +45,16 @@ func NewPostgreSQLRepository(user string, pass string, dbName string, addr strin
 		return nil, err
 	}
 
-
-
 	return &postgresql{
-		db: db,
+		db:  db,
 		ctx: ctx,
 	}, nil
 }
 
-
 func (repo *postgresql) Get(id string) (domain.ClearKeyDecoded, error) {
 	key := domain.ClearKeyDecoded{}
-	ctx, cancelCtx := context.WithTimeout(repo.ctx, time.Second * 10)
+	ctx, cancelCtx := context.WithTimeout(repo.ctx, time.Second*10)
 	defer func() { cancelCtx() }()
-
 
 	if err := repo.db.NewSelect().Model(&key).Where("id = ?", id).Scan(ctx); err != nil {
 		logger.Log.Debugf("GET %s - NOT FOUND", id[:8])
@@ -69,10 +65,27 @@ func (repo *postgresql) Get(id string) (domain.ClearKeyDecoded, error) {
 	return key, nil
 }
 
-func (repo *postgresql) Save(key domain.ClearKeyDecoded) error {
-	ctx, cancelCtx := context.WithTimeout(repo.ctx, time.Second * 10)
+func (repo *postgresql) GetAll() (map[string]domain.ClearKeyDecoded, error) {
+	keysRaw := make([]domain.ClearKeyDecoded, 0)
+	keys := map[string]domain.ClearKeyDecoded{}
+	ctx, cancelCtx := context.WithTimeout(repo.ctx, time.Second*10)
 	defer func() { cancelCtx() }()
 
+	if err := repo.db.NewSelect().Model(&keysRaw).Scan(ctx); err != nil {
+		logger.Log.Debugf("GET ALL - CANNOT BE DONE")
+		return map[string]domain.ClearKeyDecoded{}, apperrors.Internal
+	}
+
+	for _, keyDecoded := range keysRaw {
+		keys[keyDecoded.Id.String()] = keyDecoded
+	}
+
+	return keys, nil
+}
+
+func (repo *postgresql) Save(key domain.ClearKeyDecoded) error {
+	ctx, cancelCtx := context.WithTimeout(repo.ctx, time.Second*10)
+	defer func() { cancelCtx() }()
 
 	if _, err := repo.db.NewInsert().Model(&key).Exec(ctx); err != nil {
 		logger.Log.Debugf("POST %s - FAILED", err)
@@ -82,4 +95,3 @@ func (repo *postgresql) Save(key domain.ClearKeyDecoded) error {
 	logger.Log.Debug("POST %s - SAVED")
 	return nil
 }
-

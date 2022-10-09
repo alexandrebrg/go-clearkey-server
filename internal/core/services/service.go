@@ -11,6 +11,15 @@ type service struct {
 	keyRepository repositories2.KeyStorageRepository
 }
 
+func (svc *service) GetAll() (map[string]domain2.ClearKeyDecoded, error) {
+	keys, err := svc.keyRepository.GetAll()
+	if err != nil {
+		return map[string]domain2.ClearKeyDecoded{}, err
+	}
+
+	return keys, nil
+}
+
 func (svc *service) GetEncoded(keyId string) (domain2.ClearKeyEncoded, error) {
 	key, err := svc.Get(keyId)
 	if err != nil {

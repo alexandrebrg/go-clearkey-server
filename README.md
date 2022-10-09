@@ -42,8 +42,9 @@ against your go-clearkey-server, please note that you need to update key ids acc
 
 ## Routes
 
-| Method | Route | Description |
-| ------ | ----- | ----------- |
-| POST | /license |  Request a license value following [W3C](https://www.w3.org/TR/encrypted-media/#clear-key-request-format) specs |
-| POST | /license/register | Request to register a new license, no body expected, but it will generate a key that will be returned as [license format](https://www.w3.org/TR/encrypted-media/#clear-key-license-format) |
+| Method | Route             | Description                                                                                                                                                                                |
+|--------|-------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| GET    | /license          | Fetch all license and shows them, you should not have an endpoint like this in production.                                                                                                 |
+| POST   | /license          | Request a license value following [W3C](https://www.w3.org/TR/encrypted-media/#clear-key-request-format) specs                                                                             |
+| POST   | /license/register | Request to register a new license, no body expected, but it will generate a key that will be returned as [license format](https://www.w3.org/TR/encrypted-media/#clear-key-license-format) |
 

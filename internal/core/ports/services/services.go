@@ -1,11 +1,12 @@
 package services
 
 import (
-	domain2 "gitlab.com/protocole/clearkey/internal/core/domain"
+	"gitlab.com/protocole/clearkey/internal/core/domain"
 )
 
 type KeyStorageService interface {
-	Get(keyId string) (domain2.ClearKeyDecoded, error)
-	GetEncoded(keyId string) (domain2.ClearKeyEncoded, error)
-	Create() (domain2.ClearKeyDecoded, error)
+	Get(keyId string) (domain.ClearKeyDecoded, error)
+	GetEncoded(keyId string) (domain.ClearKeyEncoded, error)
+	Create() (domain.ClearKeyDecoded, error)
+	GetAll() (map[string]domain.ClearKeyDecoded, error)
 }

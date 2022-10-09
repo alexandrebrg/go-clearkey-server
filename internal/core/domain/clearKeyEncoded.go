@@ -6,9 +6,9 @@ import (
 )
 
 type ClearKeyEncoded struct {
-	Type 				string	`json:"kty"`
-	ValueAsBase64Url	string 	`json:"k"`
-	IdAsBase64Url		string 	`json:"kid"`
+	Type             string `json:"kty"`
+	ValueAsBase64Url string `json:"k"`
+	IdAsBase64Url    string `json:"kid"`
 }
 
 func (key *ClearKeyEncoded) Decode() (ClearKeyDecoded, error) {
@@ -30,4 +30,3 @@ func (key *ClearKeyEncoded) Decode() (ClearKeyDecoded, error) {
 		Id:    keyAsUUID,
 	}, nil
 }
-

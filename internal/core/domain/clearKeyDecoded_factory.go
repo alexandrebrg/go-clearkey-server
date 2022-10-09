@@ -10,9 +10,9 @@ type ClearKeyDecodedFactory struct {
 
 func MakeClearKeyDecoded() ClearKeyDecodedFactory {
 	clearKeyEncoded := ClearKeyDecodedFactory{item: ClearKeyDecoded{
-		Type:             "oct",
-		Id: 		uuid.New(),
-		Value:    uuid.New(),
+		Type:  "oct",
+		Id:    uuid.New(),
+		Value: uuid.New(),
 	}}
 
 	return clearKeyEncoded

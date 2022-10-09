@@ -60,13 +60,12 @@ var (
 	 * HTTP CODES
 	 */
 	InvalidInput = newErrorWrapper("1", "input given is invalid", http.StatusBadRequest)
-	NotFound = newErrorWrapper("2", "requested resource not found", http.StatusNotFound)
-	Internal = newErrorWrapper("3", "an error occurred on our side", http.StatusInternalServerError)
+	NotFound     = newErrorWrapper("2", "requested resource not found", http.StatusNotFound)
+	Internal     = newErrorWrapper("3", "an error occurred on our side", http.StatusInternalServerError)
 
 	/*
 	 * APPLICATION INTERNAL ERRORS
 	 */
-	EnvVarLoadFailed = errors.New("could not environment variables")
+	EnvVarLoadFailed   = errors.New("could not environment variables")
 	DBConnectionFailed = errors.New("upfront database is either down or credentials are wrong")
-
 )
