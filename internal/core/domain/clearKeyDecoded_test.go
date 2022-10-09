@@ -6,7 +6,7 @@ import (
 
 /*
 Because if it succeed while ID is nil it won't bother us
- */
+*/
 func TestClearKeyEncodeSucceedIfNilId(t *testing.T) {
 	mockClearKey := MakeClearKeyDecoded().SetNilContent().RandomizeValidValue().Get()
 

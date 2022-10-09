@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	jsonRaw "encoding/json"
 	domain2 "gitlab.com/protocole/clearkey/internal/core/domain"
 	dto2 "gitlab.com/protocole/clearkey/internal/core/domain/dto"
 	httpHandler2 "gitlab.com/protocole/clearkey/internal/core/ports/httpHandler"
@@ -35,6 +36,22 @@ func (h *handler) setupResponse(w http.ResponseWriter, body []byte, statusCode i
 
 func (h *handler) serializer() serializer2.KeyRequestSerializer {
 	return &json.RequestKey{}
+}
+
+func (h *handler) GetKeys(w http.ResponseWriter, r *http.Request) {
+	keys, err := h.svc.GetAll()
+	if err != nil {
+		logger2.Log.Errorf("Could not fetch keys right now")
+		apperrors.ReturnHttpError(w, apperrors.Internal)
+	}
+
+	responseBody, err := jsonRaw.Marshal(keys)
+	if err != nil {
+		logger2.Log.Errorf("Could not unmarshal content, reason %s", err)
+		apperrors.ReturnHttpError(w, apperrors.Internal)
+	}
+
+	h.setupResponse(w, responseBody, http.StatusOK)
 }
 
 func (h *handler) GetKey(w http.ResponseWriter, r *http.Request) {

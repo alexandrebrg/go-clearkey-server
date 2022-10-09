@@ -7,9 +7,9 @@ import (
 )
 
 type ClearKeyDecoded struct {
-	Type 				string
-	Id					uuid.UUID
-	Value 				uuid.UUID
+	Type  string
+	Id    uuid.UUID
+	Value uuid.UUID
 }
 
 func NewClearKey(cleanId uuid.UUID, cleanValue uuid.UUID, cleanType string) ClearKeyDecoded {

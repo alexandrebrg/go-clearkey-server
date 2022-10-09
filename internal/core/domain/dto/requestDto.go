@@ -8,13 +8,13 @@ import (
 )
 
 type RequestKeyDto struct {
-	KeyIdsAsBase64Url		[]string 	`json:"kids"`
-	SessionType 			string		`json:"type"`
+	KeyIdsAsBase64Url []string `json:"kids"`
+	SessionType       string   `json:"type"`
 }
 
 type ResponseRequestKeyDto struct {
-	Keys	[]domain2.ClearKeyEncoded `json:"keys"`
-	Type	string                    `json:"type"`
+	Keys []domain2.ClearKeyEncoded `json:"keys"`
+	Type string                    `json:"type"`
 }
 
 func BuildResponseRequestKey(cleanType string, keys []domain2.ClearKeyEncoded) ResponseRequestKeyDto {
@@ -39,6 +39,6 @@ func (r *RequestKeyDto) Decode() (domain2.RequestKey, error) {
 
 	return domain2.RequestKey{
 		SessionType: r.SessionType,
-		KeyIds: decodedKeys,
+		KeyIds:      decodedKeys,
 	}, nil
 }

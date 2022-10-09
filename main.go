@@ -49,6 +49,7 @@ func main() {
 		MaxAge:           300, // Maximum value not ignored by any of major browsers
 	}))
 
+	r.Get("/license", handler.GetKeys)
 	r.Post("/license", handler.GetKey)
 	r.Post("/license/register", handler.PostKey)
 
@@ -69,7 +70,7 @@ func main() {
 }
 
 /*
-  This function use the native logger as we load the logger after this method
+This function use the native logger as we load the logger after this method
 */
 func loadEnvironment() error {
 	// This corresponds to key ID & env var name

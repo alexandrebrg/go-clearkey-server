@@ -8,7 +8,7 @@ import (
 	logger2 "gitlab.com/protocole/clearkey/internal/core/ports/logger"
 )
 
-type RequestKey struct {}
+type RequestKey struct{}
 
 func (k *RequestKey) DecodeRequest(input []byte) (*dto2.RequestKeyDto, error) {
 	keyRequest := &dto2.RequestKeyDto{}
@@ -39,4 +39,3 @@ func (k *RequestKey) EncodeKey(input *domain2.ClearKeyEncoded) ([]byte, error) {
 
 	return rawMsg, nil
 }
-

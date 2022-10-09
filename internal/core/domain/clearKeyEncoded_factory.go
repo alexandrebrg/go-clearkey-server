@@ -6,8 +6,8 @@ import (
 )
 
 type ClearKeyEncodedFactory struct {
-	item ClearKeyEncoded
-	decodedId uuid.UUID
+	item         ClearKeyEncoded
+	decodedId    uuid.UUID
 	decodedValue uuid.UUID
 }
 
